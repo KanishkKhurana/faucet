@@ -1608,39 +1608,38 @@ const WalletDetails = (props) => {
   const [apiError, setApiError] = useState(false); //if api error, show error msg
 
   const sendPhone = async (captcha) => {
-    await axios
-      .post('https://testnetfaucet.io/api/requestTokens', {
+    try {
+      const { data } = await axios.post('https://testnetfaucet.io/api/requestTokens', {
         phone: props.country + props.phone,
         captchaCode: captcha,
-      })
-      .then(function (response) {
-        console.log(response.data);
-        const id = response.data.requestId;
-        const myReqId = id.toString();
-        props.setReqId(myReqId);
-        console.log(props.reqId);
-      })
-      .catch(function (error) {
-        console.log(error);
-        setApiError(true);
       });
-  };
-
-  const validate = () => {
-    console.log(validWallet);
-    if (validWalletExp.test(validWallet)) {
-      console.log('wallet correct');
-      setValid(true);
-      props.setWallet(validWallet);
-      setErrorMsg(false);
-    } else {
-      console.log('wallet NOT correct');
-      setErrorMsg(true);
-      setValid(false);
+      console.log(data);
+      const id = data.requestId;
+      const myReqId = id.toString();
+      await props.setReqId(myReqId);
+      console.log(props.reqId);
+      return data;
+    } catch (error) {
+      console.log(error);
+      setApiError(true);
     }
   };
 
-  const recaptchaRef = React.useRef(null);
+  const validate = async () => {
+    console.log(validWallet);
+    if (validWalletExp.test(validWallet)) {
+      console.log('wallet correct');
+      await setValid(true);
+      await props.setWallet(validWallet);
+      await setErrorMsg(false);
+    } else {
+      console.log('wallet NOT correct');
+      await setErrorMsg(true);
+      await setValid(false);
+    }
+  };
+
+  const recaptchaRef = React.useRef();
 
   const handleSubmit = async (event) => {
     console.log(props.country + props.phone);
@@ -1648,13 +1647,14 @@ const WalletDetails = (props) => {
     const isValid = validWalletExp.test(validWallet);
 
     if (isValid) {
+      props.setWallet(validWallet);
       console.log('Getting captcha token');
-      const token = await recaptchaRef.current.execute();
+      const token = await recaptchaRef.current.executeAsync();
       console.log(`Captcha token: ${token}`);
       if (token) {
-        const { data } = await sendPhone(token);
+        const data = await sendPhone(token);
         recaptchaRef.current.reset();
-        if (apiError) {
+        if (!apiError) {
           props.setStep('3');
           setTimeout(Move, 300);
         }
@@ -1669,12 +1669,7 @@ const WalletDetails = (props) => {
 
   return (
     <div className={`${visibility ? 'hidden' : ''}`}>
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        size='invisible'
-        sitekey='6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2'
-        // onChange={onReCAPTCHAChange}
-      />
+      <ReCAPTCHA ref={recaptchaRef} size='invisible' sitekey='6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2' />
       <div
         className={` ${
           props.step === '2' ? 'scale-100 duration-300' : 'scale-0 duration-300 '
@@ -1694,7 +1689,7 @@ const WalletDetails = (props) => {
               className={`font-secondary  ${dark ? 'text-[#D2D2D2] font-extralight' : 'text-[#023E8A] font-semibold'}`}
             >
               <p className='xl:w-3/4 my-3 xl:my-5 xl:text-xl text-xs'>
-                Provide your Ethereum wallet address where you wish wish to receive the Goerli ETH
+                Provide your Ethereum wallet address where you wish to receive the Goerli ETH
               </p>
             </div>
           </div>
@@ -1758,27 +1753,39 @@ const VerifyOTP = (props) => {
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
 
   const [process, setProcess] = useState(false);
-  const recaptchaRef = React.useRef(null);
-  const [otpIssue, setOtpIssue] = useState(null);
+  const recaptchaRef = React.useRef();
+  const [otpIssue, setOtpIssue] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
 
   const verifyPhone = async (captcha) => {
-    await axios
-      .post('https://testnetfaucet.io/api/verifyRequest', {
+    try {
+      const { data } = await axios.post('https://testnetfaucet.io/api/verifyRequest', {
         requestId: props.reqId,
         code: props.otp,
         address: props.wallet,
         captchaCode: captcha,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-        setOtpIssue(true);
-        setErrorMsg(true);
-        console.log('state is now true');
       });
+      await setOtpIssue(false);
+      // console.log(response);
+    } catch (error) {
+      console.log(error);
+      await setOtpIssue(true);
+      await setErrorMsg(true);
+    }
+
+    // await axios
+    //   .post('https://testnetfaucet.io/api/verifyRequest', {
+    //     requestId: props.reqId,
+    //     code: props.otp,
+    //     address: props.wallet,
+    //     captchaCode: captcha,
+    //   })
+    //   .then(function (response) {
+
+    //   })
+    //   .catch(function (error) {
+
+    //   });
   };
   const resendOTP = async (captcha) => {
     await axios
@@ -1799,7 +1806,7 @@ const VerifyOTP = (props) => {
     setProcess(true);
     console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
-    const token = await recaptchaRef.current.execute();
+    const token = await recaptchaRef.current.executeAsync();
     console.log('here');
     console.log(token);
     if (token) {
@@ -1818,7 +1825,7 @@ const VerifyOTP = (props) => {
     //   event.preventDefault();
     console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
-    const token = await recaptchaRef.current.execute();
+    const token = await recaptchaRef.current.executeAsync();
     console.log('here');
     console.log(token);
     if (token) {
@@ -1828,30 +1835,10 @@ const VerifyOTP = (props) => {
     }
   };
 
-  //   const onReCAPTCHAChange = (captchaCode) => {
-  //     // If the reCAPTCHA code is null or undefined indicating that
-  //     // the reCAPTCHA was expired then return early
-  //     console.log('got in here');
-  //     console.log(captchaCode);
-  //     if (!captchaCode) {
-  //       return;
-  //     }
-  //     // Else reCAPTCHA was executed successfully so proceed with the
-  //     // alert
-  //     alert(`Hey, ${email}`);
-  //     // Reset the reCAPTCHA so that it can be executed again if user
-  //     // submits another email.
-  //     recaptchaRef.current.reset();
-  //   };
-
   return (
     <div className={`${visibility ? 'hidden' : ''}`}>
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        size='invisible'
-        sitekey='6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2'
-        // onChange={onReCAPTCHAChange}
-      />
+      <ReCAPTCHA ref={recaptchaRef} size='invisible' sitekey='6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2' />
+
       <div
         className={` ${props.step === '3' ? 'scale-100 duration-300' : 'scale-0 duration-300 '} flex justify-center `}
       >
