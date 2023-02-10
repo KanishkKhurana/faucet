@@ -1591,6 +1591,7 @@ const PhoneNumber = (props) => {
           </div>
         </div>
       </div>
+        <div className=''><p className='font-secondary font-thin text-xs pt-2'>*You can only claim upto 35 Goerli Ethereum Testnet per month.</p></div>
     </div>
   );
 };
@@ -1929,7 +1930,7 @@ const Done = (props) => {
         >
           <div className='flex font-primary xl:text-4xl'>4.</div>
           <div className='text-left mt-4 xl:ml-16'>
-            <h1 className='font-primary xl:text-4xl text-xl '>All Done !</h1>
+            <h1 className='font-primary xl:text-4xl text-xl '>All Done!</h1>
             <div
               className={`font-secondary  ${dark ? 'text-[#D2D2D2] font-extralight' : 'text-[#023E8A] font-semibold'}`}
             >
@@ -2008,7 +2009,7 @@ export default function Cards(props) {
         {/* <Image src={ETHDark} className="xl:w-10/12 w-5/12" /> */}
       </div>
       <div className='flex flex-col justify-center z-20 select-none'>
-        <h1 className='font-primary text-4xl xl:text-7xl text-center xl:text-center mx-2 xl:mx-0'>ETHEREUM FAUCET</h1>
+        <h1 className='font-primary text-4xl xl:text-7xl text-center xl:text-center mx-2 xl:mx-0'>GOERLI ETHEREUM FAUCET</h1>
         <div className='flex justify-center'>
           {/* <p
             className={`font-secondary xl:text-xl text-sm  text-center xl:text-left xl:w-4/6 mt-3 ${

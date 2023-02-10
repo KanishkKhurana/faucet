@@ -17,7 +17,7 @@ export default function Navbar(props) {
         }  xl:px-44 px-5`}
       >
         <div className=''>
-          <a href='/'>
+          <a href='https://www.deltafund.io/' target="_blank" rel="noopener noreferrer">
             <Image src={dark ? NameDark : NameLight} className='xl:w-3/4 w-2/5' />
           </a>
         </div>
