@@ -22,7 +22,7 @@ export default function Footer(props) {
     <div className={`${dark ? "from-black to-transparent" : "from-white to-transparent"} bg-gradient-to-t  pb-3`}>
       <div>
         <div className='flex justify-center'>
-          <Image src={logo} />
+          <Image src={logo} alt="Delta blockchain fund goerli ethereum faucet" />
         </div>
         <div className='font-primary pt-5'>
           <a href="mailto:smit@deltafund.io" target="_blank" rel="noopener noreferrer">Contact Us</a>

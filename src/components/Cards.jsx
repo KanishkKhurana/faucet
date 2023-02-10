@@ -1562,9 +1562,9 @@ const PhoneNumber = (props) => {
                 {countries.map((country) => {
                   return (
                     <option value={country.dial_code} key={country.code}>
-                      {country.flag}
-                      {'   '}
                       {country.name}
+                      {'   '}
+                      {country.flag}
                     </option>
                   );
                 })}
@@ -1591,7 +1591,7 @@ const PhoneNumber = (props) => {
           </div>
         </div>
       </div>
-        <div className=''><p className='font-secondary font-thin text-xs pt-2'>*You can only claim upto 35 Goerli Ethereum Testnet per month.</p></div>
+        <div className=''><p className={`font-secondary text-xs pt-2 font-thin ${dark ? 'text-[#D2D2D2] ' : 'text-[#023E8A]'}`}>*You can only claim upto 35 Goerli Ethereum Testnet per month.</p></div>
     </div>
   );
 };
@@ -1640,7 +1640,7 @@ const WalletDetails = (props) => {
     }
   };
 
-  const recaptchaRef = React.useRef();
+  const recaptchaRef = React.useRef(null);
 
   const handleSubmit = async (event) => {
     console.log(props.country + props.phone);
@@ -1650,7 +1650,7 @@ const WalletDetails = (props) => {
     if (isValid) {
       props.setWallet(validWallet);
       console.log('Getting captcha token');
-      const token = await recaptchaRef.current.executeAsync();
+      const token = await recaptchaRef.current.execute();
       console.log(`Captcha token: ${token}`);
       if (token) {
         const data = await sendPhone(token);
@@ -1754,7 +1754,7 @@ const VerifyOTP = (props) => {
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
 
   const [process, setProcess] = useState(false);
-  const recaptchaRef = React.useRef();
+  const recaptchaRef = React.useRef(null);
   const [otpIssue, setOtpIssue] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
 
@@ -1807,7 +1807,7 @@ const VerifyOTP = (props) => {
     setProcess(true);
     console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
-    const token = await recaptchaRef.current.executeAsync();
+    const token = await recaptchaRef.current.execute();
     console.log('here');
     console.log(token);
     if (token) {
@@ -2022,7 +2022,7 @@ export default function Cards(props) {
       </div>
       <div className='xl:mt-10 mt-5' />
       <div className='absolute xl:-left-96 -left-28 top-40 xl:top-32 z-0 select-none'>
-        <Image src={LogoDark} className='w-8/12 xl:w-10/12' />
+        <Image src={LogoDark} alt="Delta blockchain fund goerli ethereum faucet" className='w-8/12 xl:w-10/12' />
       </div>
       <div className='relative xl:pb-[33rem] pb-96 '>
         <div className='absolute z-40 w-full'>

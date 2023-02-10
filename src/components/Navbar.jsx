@@ -18,7 +18,7 @@ export default function Navbar(props) {
       >
         <div className=''>
           <a href='https://www.deltafund.io/' target="_blank" rel="noopener noreferrer">
-            <Image src={dark ? NameDark : NameLight} className='xl:w-3/4 w-2/5' />
+            <Image src={dark ? NameDark : NameLight} alt="Delta blockchain fund goerli ethereum faucet" className='xl:w-3/4 w-2/5' />
           </a>
         </div>
         <div className='flex xl:gap-12 gap-5 mt-0.5'>
