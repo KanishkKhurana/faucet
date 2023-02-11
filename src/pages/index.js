@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Goerli Faucet</title>
+        <title>Goerli Ethereum Faucet</title>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <meta name="description" content="Goerli Faucet by Delta Blockchain Fund" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
