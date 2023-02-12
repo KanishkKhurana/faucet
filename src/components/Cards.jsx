@@ -22,7 +22,6 @@ const WalletDetails = (props) => {
   const [errorMsg, setErrorMsg] = useState(false); //if incorrect wallet, show error msg
   const [apiError, setApiError] = useState(false); //if api error, show error msg
 
-  const recaptchaRef = React.useRef(null);
 
   const handleSubmit = async (event) => {
     // console.log(props.country + props.phone);
@@ -43,11 +42,6 @@ const WalletDetails = (props) => {
 
   return (
     <div className={`${visibility ? "hidden" : ""}`}>
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        size="invisible"
-        sitekey="6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2"
-      />
       <div
         className={` ${
           props.step === "1"
@@ -132,7 +126,7 @@ const PhoneNumber = (props) => {
 
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
 
-  const recaptchaRef = React.useRef(null);
+  const recaptchaRef = React.useRef();
   const [validNum, setValidNum] = useState("");
   const [myCountry, setMyCountry] = useState("");
   const [apiError, setApiError] = useState("");
@@ -176,12 +170,11 @@ const PhoneNumber = (props) => {
       await props.setPhone(tempNum);
       console.log(props.phone);
       console.log("Getting captcha token");
-      const token = await recaptchaRef.current.execute();
+      const token = await recaptchaRef.current.executeAsync();
       console.log(`Captcha token: ${token}`);
       if (token) {
         const data = await sendPhone(token);
         recaptchaRef.current.reset();
-        setTimeout(console.log("timeout over"), 2000);
         console.log(apiError);
         if (apiError === "") {
           props.setStep("3");
@@ -197,11 +190,7 @@ const PhoneNumber = (props) => {
 
   return (
     <div className={`${visibility}`}>
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        size="invisible"
-        sitekey="6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2"
-      />
+
 
       <div
         className={` ${
@@ -286,6 +275,11 @@ const PhoneNumber = (props) => {
             </div>
           )}
           <div className="mt-12 flex xl:ml-16 pb-12">
+          <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey="6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2"
+      />
             <button
               className={` ${
                 dark ? "bg-[#000088]" : "bg-[#48CAE4] border border-[#000088]"
@@ -311,7 +305,7 @@ const VerifyOTP = (props) => {
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
 
   const [process, setProcess] = useState(false);
-  const recaptchaRef = React.useRef(null);
+  const recaptchaRef = React.useRef();
   const [otpIssue, setOtpIssue] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
 
@@ -355,7 +349,7 @@ const VerifyOTP = (props) => {
     setProcess(true);
     console.log("in handle submit");
     // Execute the reCAPTCHA when the form is submitted
-    const token = await recaptchaRef.current.execute();
+    const token = await recaptchaRef.current.executeAsync();
     console.log("here");
     console.log(token);
     if (token) {
@@ -386,11 +380,7 @@ const VerifyOTP = (props) => {
 
   return (
     <div className={`${visibility ? "hidden" : ""}`}>
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        size="invisible"
-        sitekey="6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2"
-      />
+
 
       <div
         className={` ${
@@ -454,6 +444,11 @@ const VerifyOTP = (props) => {
           )}
 
           <div className="mt-12 flex flex-col xl:flex-row gap-5 xl:ml-16 pb-12">
+          <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey="6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2"
+      />
             <button
               className={` ${
                 dark ? "bg-[#000088]" : "bg-[#48CAE4] border border-[#000088]"
