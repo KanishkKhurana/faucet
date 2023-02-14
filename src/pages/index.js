@@ -18,7 +18,7 @@ export default function Home() {
   const recaptchaRef = React.useRef();
 
   const onRecaptchaClick = async () => {
-    token = await recaptchaRef.current.execute();
+    token = await recaptchaRef.current.executeAsync();
     console.log("token", token);
     return token;
   }
