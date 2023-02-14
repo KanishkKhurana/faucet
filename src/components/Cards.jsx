@@ -6,7 +6,6 @@ import LogoDark from "../assets/images/LogoDark.svg";
 import LogoLight from "../assets/images/LogoLight.svg";
 import { ModeContext } from "../context/ModeContext";
 import { BsTwitter } from "react-icons/bs";
-import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import countries from "../utils/Countries";
 
@@ -56,7 +55,7 @@ const WalletDetails = (props) => {
               : "from-[#0077B6] to-[#ffffff3f] border-[#03045E]"
           }`}
         >
-          <div className="flex font-primary xl:text-4xl">1.</div>
+          {/* <div className="flex font-primary xl:text-4xl"></div> */}
           <div className="text-left mt-4 xl:ml-16">
             <h1 className="font-primary xl:text-4xl text-xl ">
               Enter Your Wallet Details
@@ -125,8 +124,6 @@ const PhoneNumber = (props) => {
 
 
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
-
-  const recaptchaRef = React.useRef();
   const [validNum, setValidNum] = useState("");
   const [myCountry, setMyCountry] = useState("");
   const [apiError, setApiError] = useState("");
@@ -170,11 +167,11 @@ const PhoneNumber = (props) => {
       await props.setPhone(tempNum);
       console.log(props.phone);
       console.log("Getting captcha token");
-      const token = await recaptchaRef.current.executeAsync();
+      const token = await props.onRecaptchaClick();
       console.log(`Captcha token: ${token}`);
       if (token) {
         const data = await sendPhone(token);
-        recaptchaRef.current.reset();
+        props.resetCaptcha()
         console.log(apiError);
         if (apiError === "") {
           props.setStep("3");
@@ -207,7 +204,7 @@ const PhoneNumber = (props) => {
               : "from-[#0077B6] to-[#ffffff3f] border-[#03045E]"
           }`}
         >
-          <div className="flex font-primary xl:text-4xl">2.</div>
+          {/* <div className="flex font-primary xl:text-4xl">2.</div> */}
           <div className="text-left mt-4 xl:ml-16">
             <h1 className="font-primary xl:text-4xl text-xl ">
               Enter Your Phone Number{" "}
@@ -275,11 +272,7 @@ const PhoneNumber = (props) => {
             </div>
           )}
           <div className="mt-12 flex xl:ml-16 pb-12">
-          <ReCAPTCHA
-        ref={recaptchaRef}
-        size="invisible"
-        sitekey="6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2"
-      />
+
             <button
               className={` ${
                 dark ? "bg-[#000088]" : "bg-[#48CAE4] border border-[#000088]"
@@ -305,7 +298,7 @@ const VerifyOTP = (props) => {
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
 
   const [process, setProcess] = useState(false);
-  const recaptchaRef = React.useRef();
+
   const [otpIssue, setOtpIssue] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
 
@@ -349,7 +342,7 @@ const VerifyOTP = (props) => {
     setProcess(true);
     console.log("in handle submit");
     // Execute the reCAPTCHA when the form is submitted
-    const token = await recaptchaRef.current.executeAsync();
+    const token = await props.onRecaptchaClick();
     console.log("here");
     console.log(token);
     if (token) {
@@ -357,7 +350,8 @@ const VerifyOTP = (props) => {
       if (forward) {
         console.log("resetting token");
         setProcess(false);
-        recaptchaRef.current.reset();
+        // recaptchaRef.current.reset();
+        props.resetCaptcha()
         props.setStep("4");
         setTimeout(Move, 300);
       }
@@ -368,13 +362,13 @@ const VerifyOTP = (props) => {
     //   event.preventDefault();
     console.log("in handle submit");
     // Execute the reCAPTCHA when the form is submitted
-    const token = await recaptchaRef.current.executeAsync();
+    const token = await props.onRecaptchaClick();
     console.log("here");
     console.log(token);
     if (token) {
       resendOTP(token);
       console.log("resetting token");
-      recaptchaRef.current.reset();
+      props.resetCaptcha();
     }
   };
 
@@ -396,7 +390,7 @@ const VerifyOTP = (props) => {
               : "from-[#0077B6] to-[#ffffff3f] border-[#03045E]"
           }`}
         >
-          <div className="flex font-primary xl:text-4xl">3.</div>
+          {/* <div className="flex font-primary xl:text-4xl">3.</div> */}
           <div className="text-left mt-4 xl:ml-16">
             <h1 className="font-primary xl:text-4xl text-xl ">
               Verify Your OTP
@@ -444,11 +438,7 @@ const VerifyOTP = (props) => {
           )}
 
           <div className="mt-12 flex flex-col xl:flex-row gap-5 xl:ml-16 pb-12">
-          <ReCAPTCHA
-        ref={recaptchaRef}
-        size="invisible"
-        sitekey="6Le3-V0kAAAAAFY4G4gCawIs5EePPYBO_a425QM2"
-      />
+
             <button
               className={` ${
                 dark ? "bg-[#000088]" : "bg-[#48CAE4] border border-[#000088]"
@@ -629,6 +619,8 @@ export default function Cards(props) {
             setReqId={setReqId}
             reqId={reqId}
             wallet={wallet}
+            onRecaptchaClick={props.onRecaptchaClick}
+            resetCaptcha={props.resetCaptcha}
           />
         </div>
 
@@ -641,6 +633,8 @@ export default function Cards(props) {
             phone={phone}
             wallet={wallet}
             reqId={reqId}
+            onRecaptchaClick={props.onRecaptchaClick}
+            resetCaptcha={props.resetCaptcha}
           />
         </div>
         <div className="absolute z-10 w-full">
