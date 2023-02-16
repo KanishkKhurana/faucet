@@ -460,6 +460,7 @@ const Done = (props) => {
   const [process, setProcess] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [url , setUrl] = useState("");
+  const [success , setSuccess] = useState(false);
 
     const sendRepo = async (captcha) => {
       console.log("sending repo")
@@ -490,10 +491,11 @@ const Done = (props) => {
     console.log(token);
     if (token) {
       try {
-        const forward = await sendRepo("uhbuhubhub");
+        const forward = await sendRepo(token);
         console.log('resetting token');
         setProcess(false);
-        recaptchaRef.current.reset();
+        setSuccess(true);
+        // recaptchaRef.current.reset();
       } catch (error) {
         // setProcess(false);
         // setOtpIssue(true);
@@ -555,6 +557,19 @@ const Done = (props) => {
               </p>
             </div>
           )}
+          {success && (
+            <div>
+              {' '}
+              <p
+                className={`font-secondary xl:ml-16  ${
+                  dark ? 'text-[#D2D2D2] font-extralight' : 'text-[#023E8A] font-semibold'
+                } text-left mt-2 text-xs`}
+              >
+                {' '}
+                {"Thanks"}{' '}
+              </p>
+            </div>
+          )}
           <div className='mt-12 flex xl:ml-16 pb-12'>
             <button
               className={` ${
@@ -597,7 +612,7 @@ const Done = (props) => {
 };
 
 export default function Cards(props) {
-  const [step, setStep] = useState('1');
+  const [step, setStep] = useState('4');
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
   const [logo, setLogo] = useState(LogoDark);
   useEffect(() => {
@@ -679,7 +694,7 @@ export default function Cards(props) {
             resetCaptcha={props.resetCaptcha}
           />
         </div>
-        <div className='absolute z-10 w-full'>
+        <div className='absolute z-50 w-full'>
           <Done step={step} setStep={setStep} github={github} setGithub={setGithub} onRecaptchaClick={props.onRecaptchaClick} resetCaptcha={props.resetCaptcha} />
         </div>
       </div>
