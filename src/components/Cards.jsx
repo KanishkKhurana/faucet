@@ -528,8 +528,10 @@ const Done = (props) => {
               className={`font-secondary  ${dark ? 'text-[#D2D2D2] font-extralight' : 'text-[#023E8A] font-semibold'}`}
             >
               <p className='xl:w-3/4 my-3 xl:my-5 xl:text-xl text-xs'>
-                Thank you for submitting your details to receive test tokens from the Goerli faucet. Please also share
-                your Github repository for the project you are building.
+                You'll automatically recieve funds withing a few minutes.
+              </p>
+              <p className='xl:w-3/4 my-3 xl:my-5 xl:text-xl text-xs'>
+                Please also share your Github repository for the project you are building.
               </p>
             </div>
           </div>
