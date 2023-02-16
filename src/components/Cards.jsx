@@ -457,6 +457,56 @@ const Done = (props) => {
     setVisibility(true);
   };
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
+  const [process, setProcess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const [url , setUrl] = useState("");
+
+    const sendRepo = async (captcha) => {
+      console.log("sending repo")
+    try {
+      const { data } = await axios.post('https://testnetfaucet.io/api/submitGithub', {
+        url:url,
+        captchaCode: captcha,
+      });
+      
+      return true;
+      // console.log(response);
+    } catch (error) {
+      throw error;
+      // console.log(error);
+      // setOtpIssue(true);
+      // await setErrorMsg(error.response.data.message);
+      // return false;
+    }
+  };
+
+    const handleSubmit = async (event) => {
+    setProcess(true);
+    console.log('in handle submit');
+    // Execute the reCAPTCHA when the form is submitted
+    const token = await props.onRecaptchaClick();
+    // const token
+    console.log('here');
+    console.log(token);
+    if (token) {
+      try {
+        const forward = await sendRepo("uhbuhubhub");
+        console.log('resetting token');
+        setProcess(false);
+        recaptchaRef.current.reset();
+      } catch (error) {
+        // setProcess(false);
+        // setOtpIssue(true);
+        console.log(error)
+        await setErrorMsg(error);
+      }
+      // if (forward) {
+
+      // }
+      props.resetCaptcha();
+    }
+  };
+
 
   return (
     <div className={`${visibility ? 'hidden' : ''}`}>
@@ -486,16 +536,31 @@ const Done = (props) => {
             <input
               type='text'
               className={`border-[0.05rem] bg-gradient-to-r via-[#E2E2E2] placeholder-gray-500 rounded-lg w-full xl:basis-2/3 text-black text-center font-primary py-3 ${
-                dark ? 'from-[#8C8C8C] to-[#8C8C8C]' : 'from-[#ADE8F4] to-[#ADE8F4] border border-[#000088]'
-              }`}
+                dark ? 'from-[#8C8C8C] to-[#8C8C8C]' : 'from-[#ADE8F4] to-[#ADE8F4] border border-[#000088]'}`
+              }
+              onChange={(e) => setUrl(e.target.value)}
               placeholder='Enter Github Repo Link'
             />
           </div>
+          {process && (
+            <div>
+              {' '}
+              <p
+                className={`font-secondary xl:ml-16  ${
+                  dark ? 'text-[#D2D2D2] font-extralight' : 'text-[#023E8A] font-semibold'
+                } text-left mt-2 text-xs`}
+              >
+                {' '}
+                {errorMsg != null ? errorMsg : ``}{' '}
+              </p>
+            </div>
+          )}
           <div className='mt-12 flex xl:ml-16 pb-12'>
             <button
               className={` ${
                 dark ? 'bg-[#000088]' : 'bg-[#48CAE4] border border-[#000088]'
               } w-full xl:w-fit xl:text-3xl text-base font-primary px-16 tracking-wider py-3 rounded-lg border-[0.05rem]`}
+              onClick={() => handleSubmit()}
             >
               SUBMIT
             </button>
@@ -615,7 +680,7 @@ export default function Cards(props) {
           />
         </div>
         <div className='absolute z-10 w-full'>
-          <Done step={step} setStep={setStep} github={github} setGithub={setGithub} />
+          <Done step={step} setStep={setStep} github={github} setGithub={setGithub} onRecaptchaClick={props.onRecaptchaClick} resetCaptcha={props.resetCaptcha} />
         </div>
       </div>
     </div>
