@@ -145,7 +145,7 @@ const PhoneNumber = (props) => {
     if (isValid) {
       await props.setPhone(tempNum);
       console.log(props.phone);
-      // console.log('Getting captcha token');
+      console.log('Getting captcha token');
       const token = await props.onRecaptchaClick();
       // const token = '123';
       console.log(`Captcha token: ${token}`);
@@ -274,7 +274,7 @@ const PhoneNumber = (props) => {
               dark ? 'text-[#D2D2D2] ' : 'text-[#023E8A]'
             }`}
           >
-            *You can only claim upto 35 Goerli Ethereum Testnet per month.
+            *You can only claim upto 5 Goerli Ethereum Testnet per month.
           </p>
         </div>
       </div>
