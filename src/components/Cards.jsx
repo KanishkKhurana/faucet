@@ -522,7 +522,7 @@ const Done = (props) => {
               : 'from-[#0077B6] to-[#ffffff3f] border-[#03045E]'
           }`}
         >
-          <div className='flex font-primary xl:text-4xl'>4.</div>
+          {/* <div className='flex font-primary xl:text-4xl'>4.</div> */}
           <div className='text-left mt-4 xl:ml-16'>
             <h1 className='font-primary xl:text-4xl text-xl '>All Done!</h1>
             <div
@@ -612,7 +612,7 @@ const Done = (props) => {
 };
 
 export default function Cards(props) {
-  const [step, setStep] = useState('4');
+  const [step, setStep] = useState('1');
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
   const [logo, setLogo] = useState(LogoDark);
   useEffect(() => {
@@ -694,7 +694,7 @@ export default function Cards(props) {
             resetCaptcha={props.resetCaptcha}
           />
         </div>
-        <div className='absolute z-50 w-full'>
+        <div className='absolute z-10 w-full'>
           <Done step={step} setStep={setStep} github={github} setGithub={setGithub} onRecaptchaClick={props.onRecaptchaClick} resetCaptcha={props.resetCaptcha} />
         </div>
       </div>
