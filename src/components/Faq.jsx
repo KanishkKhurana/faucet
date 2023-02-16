@@ -5,9 +5,9 @@ export const accordionData = [
   {
     title: 'How does it work?',
     content: `Follow the processes below in order to receive testnet tokens directly into your wallet:`,
-      p1:'1. Enter your phone number in order to verify that you want to claim testnet tokens from the Delta Blockchain Fund’s Ethereum faucet. ',
-      p2:'2. Enter your Ethereum Wallet Address in order to receive the testnet tokens. ',
-      p3:'3. Verify your OTP in order to be eligible to receive the testnet tokens. ',
+    p1: '1. Enter your Ethereum Wallet Address in order to receive the testnet tokens. ',
+    p2: '2. Enter your phone number in order to verify that you want to claim testnet tokens from the Delta Blockchain Fund’s Ethereum faucet. ',
+    p3: '3. Verify your OTP in order to be eligible to receive the testnet tokens. ',
   },
   {
     title: 'How many ETH can I claim?',
@@ -46,15 +46,18 @@ const Accordion = ({ title, content, p1, p2, p3 }) => {
           } `}
         >
           {content}
-          {p1 ? <div>
-          <br />
-          {p1}
-          <br />
-          <br />
-          {p2}
-          <br />
-          <br />
-          {p3} </div> : null}
+          {p1 ? (
+            <div>
+              <br />
+              {p1}
+              <br />
+              <br />
+              {p2}
+              <br />
+              <br />
+              {p3}{' '}
+            </div>
+          ) : null}
         </div>
       )}
     </div>
