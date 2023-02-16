@@ -352,6 +352,7 @@ const VerifyOTP = (props) => {
         console.log("resetting token");
         setProcess(false);
         // recaptchaRef.current.reset();
+        
         props.setStep("4");
         setTimeout(Move, 300);
       }
