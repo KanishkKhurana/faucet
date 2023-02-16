@@ -459,17 +459,17 @@ const Done = (props) => {
   const { dark, setIsDark, toggleDarkMode } = useContext(ModeContext);
   const [process, setProcess] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
-  const [url , setUrl] = useState("");
-  const [success , setSuccess] = useState(false);
+  const [url, setUrl] = useState('');
+  const [success, setSuccess] = useState(false);
 
-    const sendRepo = async (captcha) => {
-      console.log("sending repo")
+  const sendRepo = async (captcha) => {
+    console.log('sending repo');
     try {
       const { data } = await axios.post('https://testnetfaucet.io/api/submitGithub', {
-        url:url,
+        url: url,
         captchaCode: captcha,
       });
-      
+
       return true;
       // console.log(response);
     } catch (error) {
@@ -481,7 +481,7 @@ const Done = (props) => {
     }
   };
 
-    const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     setProcess(true);
     console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
@@ -499,7 +499,7 @@ const Done = (props) => {
       } catch (error) {
         // setProcess(false);
         // setOtpIssue(true);
-        console.log(error)
+        console.log(error);
         await setErrorMsg(error);
       }
       // if (forward) {
@@ -508,7 +508,6 @@ const Done = (props) => {
       props.resetCaptcha();
     }
   };
-
 
   return (
     <div className={`${visibility ? 'hidden' : ''}`}>
@@ -538,8 +537,8 @@ const Done = (props) => {
             <input
               type='text'
               className={`border-[0.05rem] bg-gradient-to-r via-[#E2E2E2] placeholder-gray-500 rounded-lg w-full xl:basis-2/3 text-black text-center font-primary py-3 ${
-                dark ? 'from-[#8C8C8C] to-[#8C8C8C]' : 'from-[#ADE8F4] to-[#ADE8F4] border border-[#000088]'}`
-              }
+                dark ? 'from-[#8C8C8C] to-[#8C8C8C]' : 'from-[#ADE8F4] to-[#ADE8F4] border border-[#000088]'
+              }`}
               onChange={(e) => setUrl(e.target.value)}
               placeholder='Enter Github Repo Link'
             />
@@ -566,7 +565,7 @@ const Done = (props) => {
                 } text-left mt-2 text-xs`}
               >
                 {' '}
-                {"Thanks"}{' '}
+                {'Thanks'}{' '}
               </p>
             </div>
           )}
@@ -591,7 +590,7 @@ const Done = (props) => {
           </div>
           <div className='mt-1 flex xl:ml-16 pb-12'>
             <a
-              href='https://twitter.com/intent/tweet?text=Hey%20Everyone!%20I%20just%20got%20Goerli%20ETH%20from%20the%20@Deltabc_fund%20faucet!%20You%20can%20also%20claim%20them%20from%20here%20%20www.testnetfaucet.io%20!%20'
+              href='https://twitter.com/intent/tweet?text=Hey%20Everyone!%20I%20just%20got%20Goerli%20ETH%20from%20the%20@Deltabc_fund%20faucet!%20Get%20Goerli%20ETH%20from%20%20www.testnetfaucet.io!%20'
               target='_blank'
               rel='noopener noreferrer'
             >
@@ -695,7 +694,14 @@ export default function Cards(props) {
           />
         </div>
         <div className='absolute z-10 w-full'>
-          <Done step={step} setStep={setStep} github={github} setGithub={setGithub} onRecaptchaClick={props.onRecaptchaClick} resetCaptcha={props.resetCaptcha} />
+          <Done
+            step={step}
+            setStep={setStep}
+            github={github}
+            setGithub={setGithub}
+            onRecaptchaClick={props.onRecaptchaClick}
+            resetCaptcha={props.resetCaptcha}
+          />
         </div>
       </div>
     </div>
