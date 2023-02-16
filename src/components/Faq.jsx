@@ -13,11 +13,11 @@ export const accordionData = [
   },
   {
     title: 'How many ETH can I claim?',
-    content: `You can claim X ETH once a day`,
+    content: `You can claim 5 ETH once a day`,
   },
   {
     title: 'When can I claim next?',
-    content: `Testnet ETH can be claimed once a month. `,
+    content: `Goerli ETH can be claimed once a month. `,
   },
   {
     title: 'Do you save any addresses? ',

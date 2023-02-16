@@ -8,6 +8,7 @@ import { ModeContext } from "../context/ModeContext";
 import { BsTwitter } from "react-icons/bs";
 import axios from "axios";
 import countries from "../utils/Countries";
+import Link from "next/link";
 
 const WalletDetails = (props) => {
   const [visibility, setVisibility] = useState(false);
@@ -284,7 +285,7 @@ const PhoneNumber = (props) => {
           </div>
         </div>
         </div>
-      <div className={`${visibility} flex justify-center xl:justify-end xl:mr-20`}><p className={`font-secondary text-xs pt-2 font-thin ${dark ? 'text-[#D2D2D2] ' : 'text-[#023E8A]'}`}>*You can only claim upto 35 Goerli Ethereum Testnet per month.</p></div>
+      <div className={`${visibility} flex justify-center xl:justify-end xl:mr-20`}><p className={`font-secondary text-base pt-2 mx-3 xl:mx-0 font-thin ${dark ? 'text-[#D2D2D2] ' : 'text-[#023E8A]'}`}>*You can only claim upto 35 Goerli Ethereum Testnet per month.</p></div>
       </div>
     </div>
   );
@@ -351,10 +352,10 @@ const VerifyOTP = (props) => {
         console.log("resetting token");
         setProcess(false);
         // recaptchaRef.current.reset();
-        props.resetCaptcha()
         props.setStep("4");
         setTimeout(Move, 300);
       }
+      props.resetCaptcha()
     }
   };
 
@@ -534,7 +535,7 @@ const Done = (props) => {
             </p>
           </div>
           <div className="mt-1 flex xl:ml-16 pb-12">
-            <button
+            <a href="https://twitter.com/intent/tweet?text=Hey%20Everyone!%20I%20%20just%20got%20Goerli%20ETH%20from%20the%20@Deltabc_fund%20faucet!%20" target="_blank" rel="noopener noreferrer"><button
               className={` flex gap-3 tracking-tighter ${
                 dark ? "bg-[#1DA1F2]" : "bg-[#1DA1F2] border border-[#000088]"
               } xl:w-fit xl:text-lg text-base font-primary px-10 tracking-wider py-3 rounded-lg border-[0.05rem]`}
@@ -542,6 +543,7 @@ const Done = (props) => {
               <BsTwitter className="font-white mt-1" />
               Tweet Now
             </button>
+            </a>
           </div>
         </div>
       </div>
