@@ -301,7 +301,7 @@ const VerifyOTP = (props) => {
   const [process, setProcess] = useState(false);
 
   const [otpIssue, setOtpIssue] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const verifyPhone = async (captcha) => {
     try {
@@ -320,7 +320,7 @@ const VerifyOTP = (props) => {
     } catch (error) {
       console.log(error);
       setOtpIssue(true);
-      await setErrorMsg(true);
+      await setErrorMsg(error.response.data.message);
       return false
     }
 
@@ -431,8 +431,8 @@ const VerifyOTP = (props) => {
                 } text-left mt-2 text-xs`}
               >
                 {" "}
-                {errorMsg
-                  ? "Please enter the correct OTP"
+                {errorMsg!=null
+                  ? errorMsg
                   : `Processing Request...`}{" "}
               </p>
             </div>
@@ -535,7 +535,7 @@ const Done = (props) => {
             </p>
           </div>
           <div className="mt-1 flex xl:ml-16 pb-12">
-            <a href="https://twitter.com/intent/tweet?text=Hey%20Everyone!%20I%20just%20got%20Goerli%20ETH%20from%20the%20@Deltabc_fund%20faucet!%20" target="_blank" rel="noopener noreferrer"><button
+            <a href="https://twitter.com/intent/tweet?text=Hey%20Everyone!%20I%20just%20got%20Goerli%20ETH%20from%20the%20@Deltabc_fund%20faucet!%20You%20can%20also%20claim%20them%20from%20here%20%20www.testnetfaucet.io%20!%20" target="_blank" rel="noopener noreferrer"><button
               className={` flex gap-3 tracking-tighter ${
                 dark ? "bg-[#1DA1F2]" : "bg-[#1DA1F2] border border-[#000088]"
               } xl:w-fit xl:text-lg text-base font-primary px-10 tracking-wider py-3 rounded-lg border-[0.05rem]`}
