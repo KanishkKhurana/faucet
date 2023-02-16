@@ -118,7 +118,7 @@ const PhoneNumber = (props) => {
   const sendPhone = async (captcha) => {
     try {
       console.log('inside sendPhone');
-      const { data } = await axios.post('http://localhost:8000/requestTokens', {
+      const { data } = await axios.post('https://testnetfaucet.io/api/requestTokens', {
         phone: myCountry + validNum,
         captchaCode: captcha,
       });
@@ -130,10 +130,6 @@ const PhoneNumber = (props) => {
       return data;
     } catch (error) {
       throw error;
-      // console.log(error);
-      // setApiError(error.response.data.error);
-      // console.log(error);
-      // console.log(error.response.data.error);
     }
   };
 
@@ -150,13 +146,13 @@ const PhoneNumber = (props) => {
       await props.setPhone(tempNum);
       console.log(props.phone);
       console.log('Getting captcha token');
-      // const token = await props.onRecaptchaClick();
-      const token = '123';
+      const token = await props.onRecaptchaClick();
+      // const token = '123';
       console.log(`Captcha token: ${token}`);
       if (token) {
         try {
           const data = await sendPhone(token);
-          // props.resetCaptcha();
+          props.resetCaptcha();
           //  console.log(apiError);
           //  if (apiError === '') {
           props.setStep('3');
@@ -309,24 +305,33 @@ const VerifyOTP = (props) => {
       return true;
       // console.log(response);
     } catch (error) {
-      console.log(error);
-      setOtpIssue(true);
-      await setErrorMsg(error.response.data.message);
-      return false;
+      throw error;
+      // console.log(error);
+      // setOtpIssue(true);
+      // await setErrorMsg(error.response.data.message);
+      // return false;
     }
   };
   const resendOTP = async (captcha) => {
-    await axios
-      .post('https://testnetfaucet.io/api/requestTokens/resend', {
+    try {
+      await axios.post('https://testnetfaucet.io/api/requestTokens/resend', {
         requestId: props.reqId,
         captchaCode: captcha,
-      })
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
       });
+    } catch (error) {
+      throw error;
+    }
+    // await axios
+    //   .post('https://testnetfaucet.io/api/requestTokens/resend', {
+    //     requestId: props.reqId,
+    //     captchaCode: captcha,
+    //   })
+    // .then(function (response) {
+    //   console.log(response);
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
   };
 
   const handleSubmit = async (event) => {
@@ -334,18 +339,25 @@ const VerifyOTP = (props) => {
     console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
     const token = await props.onRecaptchaClick();
+    // const token
     console.log('here');
     console.log(token);
     if (token) {
-      const forward = await verifyPhone(token);
-      if (forward) {
+      try {
+        const forward = await verifyPhone(token);
         console.log('resetting token');
         setProcess(false);
         // recaptchaRef.current.reset();
-
         props.setStep('4');
         setTimeout(Move, 300);
+      } catch (error) {
+        // setProcess(false);
+        // setOtpIssue(true);
+        await setErrorMsg(error.response.data.error);
       }
+      // if (forward) {
+
+      // }
       props.resetCaptcha();
     }
   };
@@ -358,8 +370,11 @@ const VerifyOTP = (props) => {
     console.log('here');
     console.log(token);
     if (token) {
-      resendOTP(token);
-      console.log('resetting token');
+      try {
+        await resendOTP(token);
+        console.log('resetting token');
+      } catch (error) {}
+
       props.resetCaptcha();
     }
   };
