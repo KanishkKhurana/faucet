@@ -145,14 +145,14 @@ const PhoneNumber = (props) => {
     if (isValid) {
       await props.setPhone(tempNum);
       console.log(props.phone);
-      console.log('Getting captcha token');
+      // console.log('Getting captcha token');
       const token = await props.onRecaptchaClick();
       // const token = '123';
       console.log(`Captcha token: ${token}`);
       if (token) {
         try {
           const data = await sendPhone(token);
-          props.resetCaptcha();
+          // props.resetCaptcha();
           //  console.log(apiError);
           //  if (apiError === '') {
           props.setStep('3');
@@ -163,6 +163,7 @@ const PhoneNumber = (props) => {
           setApiError(error.response.data.error);
           console.log(error.response.data.error);
         }
+        props.resetCaptcha();
       }
     } else {
       // alert("Please enter a valid phone number");
