@@ -226,8 +226,9 @@ const PhoneNumber = (props) => {
                 className={`border-[0.05rem] bg-gradient-to-r via-[#E2E2E2] placeholder-gray-500 rounded-lg w-full xl:basis-2/3 text-black text-center font-primary py-3 ${
                   dark ? 'from-[#8C8C8C] to-[#8C8C8C]' : 'from-[#ADE8F4] to-[#ADE8F4] border border-[#000088]'
                 }`}
+                value={validNum}
                 placeholder='XXXXXXXXXX'
-                onChange={(e) => setValidNum(e.target.value)}
+                onChange={(e) => setValidNum(String(Number(e.target.value.replace(/^0+/, '')) || ''))}
               />
             </div>
             {numError && (
