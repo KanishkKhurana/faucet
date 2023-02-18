@@ -24,13 +24,13 @@ const WalletDetails = (props) => {
 
   const handleSubmit = async (event) => {
     // console.log(props.country + props.phone);
-    console.log(validWallet);
+    // console.log(validWallet);
     const validWalletExp = new RegExp(/^0x[a-fA-F0-9]{40}$/g);
     const isValid = validWalletExp.test(validWallet);
 
     if (isValid) {
       await props.setWallet(validWallet);
-      console.log(props.wallet);
+      // console.log(props.wallet);
       props.setStep('2');
       setTimeout(Move, 300);
     } else {
@@ -117,17 +117,17 @@ const PhoneNumber = (props) => {
 
   const sendPhone = async (captcha) => {
     try {
-      console.log('inside sendPhone');
+      // console.log('inside sendPhone');
       const { data } = await axios.post('https://testnetfaucet.io/api/requestTokens', {
         phone: myCountry + validNum,
         captchaCode: captcha,
         countryCode: myCountry,
       });
-      console.log(data);
+      // console.log(data);
       const id = data.requestId;
       const myReqId = id.toString();
       await props.setReqId(myReqId);
-      console.log(props.reqId);
+      // console.log(props.reqId);
       return data;
     } catch (error) {
       throw error;
@@ -137,19 +137,19 @@ const PhoneNumber = (props) => {
   const onSubmit = async () => {
     setNumError(false);
     // setApiError(null);
-    console.log(props.wallet);
-    console.log(myCountry + validNum);
+    // console.log(props.wallet);
+    // console.log(myCountry + validNum);
     const tempNum = Number(myCountry + validNum);
     const validPhone = new RegExp(/^\+?[1-9][0-9]{7,14}$/);
     const isValid = validPhone.test(tempNum);
 
     if (isValid) {
       await props.setPhone(tempNum);
-      console.log(props.phone);
-      console.log('Getting captcha token');
+      // console.log(props.phone);
+      // console.log('Getting captcha token');
       const token = await props.onRecaptchaClick();
       // const token = '123';
-      console.log(`Captcha token: ${token}`);
+      // console.log(`Captcha token: ${token}`);
       if (token) {
         try {
           const data = await sendPhone(token);
@@ -339,16 +339,16 @@ const VerifyOTP = (props) => {
 
   const handleSubmit = async (event) => {
     setProcess(true);
-    console.log('in handle submit');
+    // console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
     const token = await props.onRecaptchaClick();
     // const token
-    console.log('here');
-    console.log(token);
+    // console.log('here');
+    // console.log(token);
     if (token) {
       try {
         const forward = await verifyPhone(token);
-        console.log('resetting token');
+        // console.log('resetting token');
         setProcess(false);
         // recaptchaRef.current.reset();
         props.setStep('4');
@@ -367,15 +367,15 @@ const VerifyOTP = (props) => {
 
   const handleResendOTP = async (event) => {
     //   event.preventDefault();
-    console.log('in handle submit');
+    // console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
     const token = await props.onRecaptchaClick();
-    console.log('here');
-    console.log(token);
+    // console.log('here');
+    // console.log(token);
     if (token) {
       try {
         await resendOTP(token);
-        console.log('resetting token');
+        // console.log('resetting token');
       } catch (error) {}
 
       props.resetCaptcha();
@@ -465,7 +465,7 @@ const Done = (props) => {
   const [success, setSuccess] = useState(false);
 
   const sendRepo = async (captcha) => {
-    console.log('sending repo');
+    // console.log('sending repo');
     try {
       const { data } = await axios.post('https://testnetfaucet.io/api/submitGithub', {
         url: url,
@@ -485,23 +485,23 @@ const Done = (props) => {
 
   const handleSubmit = async (event) => {
     setProcess(true);
-    console.log('in handle submit');
+    // console.log('in handle submit');
     // Execute the reCAPTCHA when the form is submitted
     const token = await props.onRecaptchaClick();
     // const token
-    console.log('here');
-    console.log(token);
+    // console.log('here');
+    // console.log(token);
     if (token) {
       try {
         const forward = await sendRepo(token);
-        console.log('resetting token');
+        // console.log('resetting token');
         setProcess(false);
         setSuccess(true);
         // recaptchaRef.current.reset();
       } catch (error) {
         // setProcess(false);
         // setOtpIssue(true);
-        console.log(error);
+        // console.log(error);
         await setErrorMsg(error);
       }
       // if (forward) {
