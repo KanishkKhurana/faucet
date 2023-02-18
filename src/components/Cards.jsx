@@ -121,6 +121,7 @@ const PhoneNumber = (props) => {
       const { data } = await axios.post('https://testnetfaucet.io/api/requestTokens', {
         phone: myCountry + validNum,
         captchaCode: captcha,
+        countryCode: myCountry,
       });
       console.log(data);
       const id = data.requestId;
